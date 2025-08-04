@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="addcustomer.jsp" class="nav-link">
+                <a href="addCustomer.jsp" class="nav-link">
                     <div class="nav-icon"></div>
                     Add Customer
                 </a>
