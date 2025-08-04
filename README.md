@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Pahana-Edu System
 
 ## Features
@@ -20,3 +21,7 @@
 2. Set up MySQL DB with `pahanaedu` schema
 3. Configure DB credentials in `DBConnection.java`
 4. Deploy to Tomcat
+=======
+# Pahana-Edu
+A Java-based desktop application for managing customer accounts, billing, and inventory for Pahana Edu Bookshop in Colombo.
+>>>>>>> cb80dad673491df6d0db204bdb97841d033b620d
