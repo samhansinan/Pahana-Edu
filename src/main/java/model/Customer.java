@@ -12,7 +12,9 @@ public class Customer {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public String getAccountNumber() { return accountNumber; }
+    public String getAccountNumber() {
+        return accountNumber;
+    }
     public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
 
     public String getName() { return name; }
