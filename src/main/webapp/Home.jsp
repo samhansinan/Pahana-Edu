@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="additem.jsp" class="nav-link">
                     <div class="nav-icon"></div>
                     Manage Item
                 </a>
