@@ -1,12 +1,89 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="dao.CustomerDAO" %>
+<%@ page import="model.Customer" %>
+
+<%
+    CustomerDAO dao = new CustomerDAO();
+    List<Customer> customers = dao.getAllCustomers();
+    String error = (String) request.getAttribute("error");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Customer</title>
     <link href="Css/addcustomer.css" rel="stylesheet">
 </head>
+<style>
+    /* CRUD Table */
+    .table-container {
+        margin-top: 40px;
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        border: 1px solid #e5e9f2;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .crud-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        color: #334155;
+    }
+
+    .crud-table th,
+    .crud-table td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid #e5e9f2;
+    }
+
+    .crud-table th {
+        background-color: #f1f5f9;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .crud-table tr:hover {
+        background-color: #f9fafb;
+    }
+
+    /* Action Buttons */
+    .btn-warning {
+        background-color: #f59e0b;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .btn-warning:hover {
+        background-color: #d97706;
+    }
+
+    .btn-danger {
+        background-color: #ef4444;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .btn-danger:hover {
+        background-color: #dc2626;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+</style>
 <body>
 <div class="container">
     <!-- Sidebar -->
@@ -16,39 +93,24 @@
             <span style="font-weight: 600;">PahanaEdu</span>
         </div>
         <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="Home.jsp" class="nav-link">Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a href="addCustomer.jsp" class="nav-link active">Add Customer</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Calculate & Print Bill</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Manage Item</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Help</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Exit</a>
-            </li>
+            <li class="nav-item"><a href="Home.jsp" class="nav-link">Dashboard</a></li>
+            <li class="nav-item"><a href="addCustomer.jsp" class="nav-link active">Add Customer</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Calculate & Print Bill</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Manage Item</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Help</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Exit</a></li>
         </ul>
     </nav>
 
     <!-- Main Content -->
     <main class="main-content">
 
-        <!-- Show error message if any -->
-        <%
-            String error = (String) request.getAttribute("error");
-            if (error != null) {
-        %>
+        <!-- Show error if any -->
+        <% if (error != null) { %>
         <div class="error-message" style="color:red;"><%= error %></div>
         <% } %>
 
-        <!-- Success Message (optional) -->
+        <!-- Success Message -->
         <div class="success-message" id="successMessage" style="display: none;">
             Customer added successfully!
         </div>
@@ -60,17 +122,16 @@
                 <p class="form-subtitle">Please fill in all the required information to add a new customer</p>
             </div>
 
-            <form  action="addCustomer" method="POST">
+            <form action="addCustomer" method="POST">
                 <div class="form-section">
                     <h3 class="section-title">Personal Information</h3>
-
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label required">Account Number:</label>
                             <input type="text" name="accountNumber" class="form-input" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label required">Name</label>
+                            <label class="form-label required">Name:</label>
                             <input type="text" name="name" class="form-input" required>
                         </div>
                     </div>
@@ -81,7 +142,7 @@
                             <input type="text" name="address" class="form-input" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label required">Phone Number</label>
+                            <label class="form-label required">Phone Number:</label>
                             <input type="tel" name="telephone" class="form-input" required>
                         </div>
                         <div class="form-group">
@@ -98,6 +159,41 @@
                 </div>
             </form>
         </div>
+
+        <!-- Customer Table -->
+        <div class="table-container">
+            <h3 class="section-title">Customer List</h3>
+            <table class="crud-table">
+                <thead>
+                <tr>
+                    <th>Account No</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Units</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                    for (Customer c : customers) {
+                %>
+                <tr>
+                    <td><%= c.getAccountNumber() %></td>
+                    <td><%= c.getName() %></td>
+                    <td><%= c.getAddress() %></td>
+                    <td><%= c.getTelephone() %></td>
+                    <td><%= c.getUnitsConsumed() %></td>
+                    <td>
+                        <a href="editCustomer.jsp?accountNumber=<%= c.getAccountNumber() %>" class="btn btn-warning">Edit</a>
+                        <a href="deleteCustomer.jsp?accountNumber=<%= c.getAccountNumber() %>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
+                    </td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+
     </main>
 </div>
 </body>
