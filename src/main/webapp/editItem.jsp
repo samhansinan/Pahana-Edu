@@ -121,7 +121,7 @@
 </style>
 <body>
 <div class="container">
-    <h2>Edit Item <%= item.getItemId() %></h2>
+    <h2>Edit Item-Id: <%= item.getItemId() %></h2>
     <form action="updateItem" method="POST">
         <input type="hidden" name="item_id" value="<%= item.getItemId() %>">
 
