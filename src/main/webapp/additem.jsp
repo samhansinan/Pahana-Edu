@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Manage Item</title>
+  <title>Add Customer</title>
   <link href="Css/addcustomer.css" rel="stylesheet">
 </head>
 <style>
@@ -86,7 +86,7 @@
       <li class="nav-item"><a href="Home.jsp" class="nav-link">Dashboard</a></li>
       <li class="nav-item"><a href="addCustomer.jsp" class="nav-link">Add Customer</a></li>
       <li class="nav-item"><a href="#" class="nav-link">Calculate & Print Bill</a></li>
-      <li class="nav-item"><a href="#" class="nav-link active">Manage Item</a></li>
+      <li class="nav-item"><a href="additem.jsp" class="nav-link active">Manage Item</a></li>
       <li class="nav-item"><a href="#" class="nav-link">Help</a></li>
       <li class="nav-item"><a href="#" class="nav-link">Exit</a></li>
     </ul>
@@ -95,82 +95,54 @@
   <!-- Main Content -->
   <main class="main-content">
 
-    <!-- Show error if any -->
-
-    <!-- Success Message -->
-    <div class="success-message" id="successMessage" style="display: none;">
-      Customer added successfully!
+    <div class="message <%= request.getAttribute("message") != null ? "success" : "" %>">
+      <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
     </div>
+    <div class="message error">
+      <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
+    </div>
+
 
     <!-- Form Container -->
     <div class="form-container">
       <div class="form-header">
-        <h2 class="form-title"> Manage Item Information</h2>
+        <h2 class="form-title">Manage Items</h2>
         <p class="form-subtitle">Please fill in all the required information to Add Item</p>
       </div>
 
-      <form action="addCustomer" method="POST">
+      <form action="addItem" method="POST">
         <div class="form-section">
-          <h3 class="section-title">Add Items</h3>
+          <h3 class="section-title">Item Information</h3>
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label required">Item Name:</label>
-              <input type="text" name="itemname" class="form-input" required>
+              <label class="form-label required">Item Name: </label>
+              <input type="text" name="name" class="form-input" required>
             </div>
             <div class="form-group">
-              <label class="form-label required">Price: </label>
-              <input type="text" name="Price" class="form-input" required>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label required">Quantity: </label>
-              <input type="text" name="qty" class="form-input" required>
+              <label class="form-label required">Price</label>
+              <input type="number" step="0.01" name="price" class="form-input" required>
             </div>
           </div>
 
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label required">Quantity</label>
+              <input type="number" name="quantity"  class="form-input" required>
+            </div>
 
+
+          </div>
         </div>
 
         <div class="button-group">
           <button type="reset" class="btn btn-secondary">Reset Form</button>
           <button type="button" class="btn btn-danger" onclick="window.history.back()">Cancel</button>
-          <button type="submit" class="btn btn-primary">Add Item</button>
+          <button type="submit" class="btn btn-primary">Add Customer</button>
         </div>
       </form>
     </div>
 
-    <!-- Customer Table -->
-    <div class="table-container">
-      <h3 class="section-title">Customer List</h3>
-      <table class="crud-table">
-        <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-<%--        <%--%>
-<%--          for () {--%>
-<%--        %>--%>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
 
-          <td>
-            <a href="" class="btn btn-warning">Edit</a>
-            <a href="" class="btn btn-danger" onclick="">Delete</a>
-          </td>
-        </tr>
-        <%  %>
-        </tbody>
-      </table>
-    </div>
 
   </main>
 </div>

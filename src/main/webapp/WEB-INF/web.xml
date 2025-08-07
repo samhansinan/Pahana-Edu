@@ -29,6 +29,7 @@
     <url-pattern>/addCustomer</url-pattern>
   </servlet-mapping>
 
+
   <servlet>
     <servlet-name>UpdateCustomerServlet</servlet-name>
     <servlet-class>servlet.UpdateCustomerServlet</servlet-class>
@@ -37,4 +38,14 @@
     <servlet-name>UpdateCustomerServlet</servlet-name>
     <url-pattern>/updateCustomer</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AddItemServlet</servlet-name>
+    <servlet-class>servlet.AddItemServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddItemServlet</servlet-name>
+    <url-pattern>/addItem</url-pattern>
+  </servlet-mapping>
+
 </web-app>
