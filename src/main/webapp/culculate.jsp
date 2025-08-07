@@ -1,92 +1,48 @@
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
-<%--<%@ page import="java.util.List" %>--%>
-<%--<%@ page import="dao.ItemDAO" %>--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="dao.ItemDAO" %>
+<%@ page import="model.Item" %>
 
-<%--<%@ page import="model.Item" %>--%>
-
-<%--<%--%>
-<%--    ItemDAO dao = new ItemDAO();--%>
-<%--    List<Item> item = dao.getAllItem();--%>
-<%--    String error = (String) request.getAttribute("error");--%>
-<%--%>--%>
+<%
+    ItemDAO itemDao = new ItemDAO();
+    List<Item> itemList = itemDao.getAllItem();
+%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Add Customer</title>
+    <title>Calculate Bill</title>
     <link href="Css/addcustomer.css" rel="stylesheet">
+    <script>
+
+        const itemData = {
+            <% for (Item item : itemList) { %>
+            "<%= item.getItemId() %>": <%= item.getPrice() %>,
+            <% } %>
+        };
+
+        function updatePrice() {
+            const itemId = document.getElementById("item").value;
+            const priceField = document.getElementById("price");
+            const unitField = document.getElementById("units");
+            const totalField = document.getElementById("total");
+
+            priceField.value = itemData[itemId] || 0;
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            const price = parseFloat(document.getElementById("price").value) || 0;
+            const units = parseInt(document.getElementById("units").value) || 0;
+            const totalField = document.getElementById("total");
+
+            totalField.value = (price * units).toFixed(2);
+        }
+    </script>
 </head>
-<style>
-    /* CRUD Table */
-    .table-container {
-        margin-top: 40px;
-        background: white;
-        border-radius: 12px;
-        padding: 24px;
-        border: 1px solid #e5e9f2;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    .crud-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 14px;
-        color: #334155;
-    }
-
-    .crud-table th,
-    .crud-table td {
-        padding: 12px 16px;
-        text-align: left;
-        border-bottom: 1px solid #e5e9f2;
-    }
-
-    .crud-table th {
-        background-color: #f1f5f9;
-        font-weight: 600;
-        color: #1e293b;
-    }
-
-    .crud-table tr:hover {
-        background-color: #f9fafb;
-    }
-
-    /* Action Buttons */
-    .btn-warning {
-        background-color: #f59e0b;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 6px;
-        text-decoration: none;
-        transition: background 0.3s;
-    }
-
-    .btn-warning:hover {
-        background-color: #d97706;
-    }
-
-    .btn-danger {
-        background-color: #ef4444;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 6px;
-        text-decoration: none;
-        transition: background 0.3s;
-    }
-
-    .btn-danger:hover {
-        background-color: #dc2626;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 8px;
-    }
-
-</style>
 <body>
 <div class="container">
-    <!-- Sidebar -->
+    <!-- Sidebar (you can reuse your same sidebar here) -->
     <nav class="sidebar" id="sidebar">
         <div class="logo">
             <div class="logo-icon">PE</div>
@@ -95,8 +51,8 @@
         <ul class="nav-menu">
             <li class="nav-item"><a href="Home.jsp" class="nav-link">Dashboard</a></li>
             <li class="nav-item"><a href="addCustomer.jsp" class="nav-link">Add Customer</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Calculate & Print Bill</a></li>
-            <li class="nav-item"><a href="additem.jsp" class="nav-link active">Manage Item</a></li>
+            <li class="nav-item"><a href="calculateBill.jsp" class="nav-link active">Calculate & Print Bill</a></li>
+            <li class="nav-item"><a href="additem.jsp" class="nav-link">Manage Item</a></li>
             <li class="nav-item"><a href="#" class="nav-link">Help</a></li>
             <li class="nav-item"><a href="#" class="nav-link">Exit</a></li>
         </ul>
@@ -104,22 +60,58 @@
 
     <!-- Main Content -->
     <main class="main-content">
-
-
-
-
-        <!-- Form Container -->
         <div class="form-container">
             <div class="form-header">
-                <h2 class="form-title">Culculate & Bill Print</h2>
-                <p class="form-subtitle">Please fill in all the required information to culculate Item</p>
+                <h2 class="form-title">Calculate & Print Bill</h2>
+                <p class="form-subtitle">Fill in the details below</p>
             </div>
 
+            <form action="generateBill" method="POST">
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Customer ID</label>
+                            <input type="text" name="customerId" class="form-input" required>
+                        </div>
 
+                        <div class="form-group">
+                            <label class="form-label required">Select Item</label>
+                            <select name="itemId" id="item" class="form-input" onchange="updatePrice()" required>
+                                <option value="">-- Select --</option>
+                                <% for (Item item : itemList) { %>
+                                <option value="<%= item.getItemId() %>"><%= item.getName() %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Price (Auto)</label>
+                            <input type="text" name="price" id="price" class="form-input" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Units Consumed</label>
+                            <input type="number" name="units" id="units" class="form-input" oninput="calculateTotal()" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Total</label>
+                            <input type="text" name="total" id="total" class="form-input" readonly>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="button-group">
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="submit" class="btn btn-primary">Generate Bill</button>
+                </div>
+            </form>
         </div>
-
-
-
     </main>
 </div>
 </body>
