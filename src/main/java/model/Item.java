@@ -1,15 +1,23 @@
 package model;
 
-import java.sql.Connection;
-
 public class Item {
-    private int id;
+    private int itemId;
     private String name;
     private double price;
     private int quantity;
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // Constructors
+    public Item() {}
+
+    public Item(String name, double price, int quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    // Getters and Setters
+    public int getItemId() { return itemId; }
+    public void setItemId(int itemId) { this.itemId = itemId; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -19,7 +27,4 @@ public class Item {
 
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
-
-
-
 }
