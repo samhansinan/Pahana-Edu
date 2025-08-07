@@ -1,4 +1,14 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="dao.ItemDAO" %>
+<%@ page import="model.Customer" %>
+<%@ page import="model.Item" %>
 
+<%
+  ItemDAO dao = new ItemDAO();
+  List<Item> item = dao.getAllItem();
+  String error = (String) request.getAttribute("error");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,7 +152,37 @@
       </form>
     </div>
 
+    <div class="table-container">
+      <h3 class="section-title">Item List</h3>
+      <table class="crud-table">
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>ItemName</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+          for (Item i : item) {
+        %>
+        <tr>
+          <td><%= i.getItemId() %></td>
+          <td><%= i.getName() %></td>
+          <td><%= i.getPrice()%></td>
+          <td><%= i.getQuantity() %></td>
 
+          <td>
+            <a href="" class="btn btn-warning">Edit</a>
+            <a href="deleteItem.jsp?item_id=<%= i.getItemId() %>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
+          </td>
+        </tr>
+        <% } %>
+        </tbody>
+      </table>
+    </div>
 
   </main>
 </div>

@@ -12,6 +12,7 @@ import java.io.IOException;
 
 public class AddItemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String name = request.getParameter("name");
         String priceStr = request.getParameter("price");
         String qtyStr = request.getParameter("quantity");
