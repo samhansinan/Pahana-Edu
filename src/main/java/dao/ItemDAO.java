@@ -1,6 +1,6 @@
 package dao;
 
-import model.Customer;
+
 import model.Item;
 
 import java.sql.Connection;
@@ -45,6 +45,18 @@ public class ItemDAO {
         }
         conn.close();
         return list;
+    }
+
+    public void updateItem(Item item) throws Exception{
+        Connection conn = com.pahanaEdu.util.DBUtil.getConnection();
+        String sql = "UPDATE items SET name=?, price=?, quantity=? WHERE item_id=?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, item.getName());
+        stmt.setDouble(2, item.getPrice());
+        stmt.setInt(3, item.getQuantity());
+        stmt.setInt(4, item.getItemId());
+        stmt.executeUpdate();
+        conn.close();
     }
 
     public Item getItemId(String itemId) throws Exception{

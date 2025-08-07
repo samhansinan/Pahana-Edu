@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dao.ItemDAO" %>
-<%@ page import="model.Customer" %>
+
 <%@ page import="model.Item" %>
 
 <%
@@ -175,7 +175,7 @@
           <td><%= i.getQuantity() %></td>
 
           <td>
-            <a href="" class="btn btn-warning">Edit</a>
+            <a href="editItem.jsp?item_id=<%= i.getItemId() %>" class="btn btn-warning">Edit</a>
             <a href="deleteItem.jsp?item_id=<%= i.getItemId() %>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
           </td>
         </tr>
