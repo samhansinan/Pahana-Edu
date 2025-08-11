@@ -126,27 +126,8 @@
 
             <!-- Right Column -->
             <div>
-                <!-- Payment Card -->
-                <div class="payment-card">
-                    <div class="payment-title">Upcoming Payments</div>
-                    <div class="payment-amount">$2,145</div>
-                    <div class="payment-date">Next payment: August 21</div>
-                </div>
 
-                <div style="margin-top: 24px;">
-                    <!-- Progress Section -->
-                    <div class="progress-section">
-                        <h3 style="margin-bottom: 20px; color: #1e293b;">Credit Score</h3>
-                        <div class="progress-circle">
-                            <svg>
-                                <circle class="progress-bg" cx="60" cy="60" r="45"></circle>
-                                <circle class="progress-bar" cx="60" cy="60" r="45"></circle>
-                            </svg>
-                            <div class="progress-text">60%</div>
-                        </div>
-                        <div class="progress-label">Good Credit Score</div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </main>

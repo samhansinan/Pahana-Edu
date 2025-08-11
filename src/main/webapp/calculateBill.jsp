@@ -129,7 +129,6 @@
                     </tr>
                     </thead>
                     <tbody id="itemRows">
-                    <!-- First row -->
                     <tr>
                         <td>
                             <select name="itemId[]" class="form-input item-select" onchange="updateRowPrice(this)" required>
@@ -140,7 +139,7 @@
                             </select>
                         </td>
                         <td><input type="text" name="price[]" class="form-input price" readonly></td>
-                        <td><input type="number" name="ratePerUnit" class="form-input units" oninput="updateRowTotal(this)" required></td>
+                        <td><input type="number" name="units[]" class="form-input units" oninput="updateRowTotal(this)" required></td>
                         <td><input type="text" name="subtotal[]" class="form-input subtotal" readonly></td>
                         <td><button type="button" onclick="removeRow(this)">Remove</button></td>
                     </tr>
@@ -148,7 +147,6 @@
                 </table>
 
                 <button type="button" class="btn btn-secondary" onclick="addRow()">+ Add Item</button>
-
 
                 <div class="form-group">
                     <label class="form-label-total">Total Amount</label>
@@ -161,6 +159,7 @@
                     <button type="submit" class="btn btn-primary">Generate Bill</button>
                 </div>
             </form>
+
 
         </div>
     </main>

@@ -95,7 +95,7 @@
     <ul class="nav-menu">
       <li class="nav-item"><a href="Home.jsp" class="nav-link">Dashboard</a></li>
       <li class="nav-item"><a href="addCustomer.jsp" class="nav-link">Add Customer</a></li>
-      <li class="nav-item"><a href="#" class="nav-link">Calculate & Print Bill</a></li>
+      <li class="nav-item"><a href="calculateBill.jsp" class="nav-link">Calculate & Print Bill</a></li>
       <li class="nav-item"><a href="additem.jsp" class="nav-link active">Manage Item</a></li>
       <li class="nav-item"><a href="#" class="nav-link">Help</a></li>
       <li class="nav-item"><a href="#" class="nav-link">Exit</a></li>
