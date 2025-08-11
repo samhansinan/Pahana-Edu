@@ -45,13 +45,16 @@
         }
 
             function updateGrandTotal() {
-            const subtotals = document.querySelectorAll('.subtotal');
-            let total = 0;
-            subtotals.forEach(field => {
-            total += parseFloat(field.value) || 0;
-        });
-            document.getElementById("grandTotal").innerText = total.toFixed(2);
-        }
+                const subtotals = document.querySelectorAll('.subtotal');
+                let total = 0;
+                subtotals.forEach(field => {
+                    total += parseFloat(field.value) || 0;
+                });
+                document.getElementById("grandTotal").innerText = total.toFixed(2);
+                // Set hidden input value
+                document.getElementById("totalAmountInput").value = total.toFixed(2);
+            }
+
 
             function addRow() {
             const rowHtml = `
@@ -109,10 +112,10 @@
                 <p class="form-subtitle">Fill in the details below</p>
             </div>
 
-            <form action="generateBill" method="POST" id="billForm">
+            <form action="calculateBill" method="POST" id="billForm">
                 <div class="form-group">
                     <label class="form-label required">Customer ID</label>
-                    <input type="text" name="customerId" class="form-input" required>
+                    <input type="text" name="accountNumber" class="form-input" required>
                 </div>
 
                 <table id="itemTable" class="item-table">
@@ -137,7 +140,7 @@
                             </select>
                         </td>
                         <td><input type="text" name="price[]" class="form-input price" readonly></td>
-                        <td><input type="number" name="units[]" class="form-input units" oninput="updateRowTotal(this)" required></td>
+                        <td><input type="number" name="ratePerUnit" class="form-input units" oninput="updateRowTotal(this)" required></td>
                         <td><input type="text" name="subtotal[]" class="form-input subtotal" readonly></td>
                         <td><button type="button" onclick="removeRow(this)">Remove</button></td>
                     </tr>
@@ -146,9 +149,11 @@
 
                 <button type="button" class="btn btn-secondary" onclick="addRow()">+ Add Item</button>
 
+
                 <div class="form-group">
                     <label class="form-label-total">Total Amount</label>
                     <h2 id="grandTotal">0.00</h2>
+                    <input type="hidden" name="totalAmount" id="totalAmountInput" value="0.00">
                 </div>
 
                 <div class="button-group">
