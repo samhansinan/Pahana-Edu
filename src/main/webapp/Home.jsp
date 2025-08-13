@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="help" class="nav-link">
                     <div class="nav-icon"></div>
                     Help
                 </a>
