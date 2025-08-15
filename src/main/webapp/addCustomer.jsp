@@ -85,6 +85,15 @@
 
 </style>
 <body>
+<%
+    // Check if user is logged in
+    String userName = (String) session.getAttribute("username");
+    if(userName == null) {
+        // Redirect to login if not logged in
+        response.sendRedirect("index.jsp");
+        return;
+    }
+%>
 <div class="container">
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">

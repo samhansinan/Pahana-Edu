@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,15 @@
     <link href="Css/Homedahboad.css" rel="stylesheet">
 </head>
 <body>
+<%
+    // Check if user is logged in
+    String userName = (String) session.getAttribute("username");
+    if(userName == null) {
+        // Redirect to login if not logged in
+        response.sendRedirect("index.jsp");
+        return;
+    }
+%>
 <div class="dashboard-container">
     <!-- Sidebar -->
     <nav class="sidebar">
@@ -41,15 +51,21 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="displayCustomer.jsp" class="nav-link">
+                    <div class="nav-icon"></div>
+                    Display Account
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="help" class="nav-link">
                     <div class="nav-icon"></div>
                     Help
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="logout" class="nav-link" onclick="return confirmExit();">
                     <div class="nav-icon"></div>
-                   Exit
+                    Exit
                 </a>
             </li>
 
@@ -168,6 +184,11 @@
             }, 500);
         }
     });
+
+    function confirmExit() {
+        return confirm("Are you sure you want to exit?");
+    }
+
 </script>
 </body>
 </html>

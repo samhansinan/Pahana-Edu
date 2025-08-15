@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,6 +138,33 @@
             bottom: 12px;
         }
 
+        /* Message styles */
+        .message {
+            margin-bottom: 20px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: center;
+            animation: slideIn 0.3s ease;
+        }
+
+        .error-message {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #d32f2f;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .success-message {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #388e3c;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .form-group {
             margin-bottom: 25px;
             position: relative;
@@ -168,6 +196,10 @@
             transition: all 0.3s ease;
         }
 
+        .form-input.no-icon {
+            padding-left: 20px;
+        }
+
         .form-input:focus {
             background-color: #e8f5e8;
             box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
@@ -197,6 +229,10 @@
             background: linear-gradient(135deg, #5cb660, #43a047);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
         }
 
         .forgot-password {
@@ -240,6 +276,32 @@
             font-size: 16px;
         }
 
+        /* Loading animation */
+        .login-btn.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .login-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid transparent;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @media (max-width: 480px) {
             .login-container {
                 margin: 20px;
@@ -258,6 +320,14 @@
     </style>
 </head>
 <body>
+<%
+    // Check if user is already logged in
+    if(session.getAttribute("username") != null) {
+        response.sendRedirect("Home.jsp");
+        return;
+    }
+%>
+
 <div class="geometric-shapes">
     <div class="shape circle"></div>
     <div class="shape triangle"></div>
@@ -273,45 +343,112 @@
         <div class="profile-icon"></div>
     </div>
 
-    <form action="login" method="post">
+    <!-- Display error message if login failed -->
+    <%
+        String errorMessage = (String) request.getAttribute("errorMessage");
+        if (errorMessage != null) {
+    %>
+    <div class="message error-message">
+        <%= errorMessage %>
+    </div>
+    <% } %>
+
+    <!-- Display success message if logout -->
+    <%
+        String logoutMessage = request.getParameter("logout");
+        if ("success".equals(logoutMessage)) {
+    %>
+    <div class="message success-message">
+        You have been successfully logged out.
+    </div>
+    <% } %>
+
+    <form action="login" method="post" id="loginForm">
         <div class="form-group">
             <div class="input-container">
-                <div class="input-icon"></div>
-                <input type="text" class="form-input" placeholder="Enter Username" name="username" required>
+                <div class="input-icon">👤</div>
+                <input type="text" class="form-input" placeholder="Enter Username" name="username"
+                       value="<%= request.getParameter("username") != null ? request.getParameter("username") : "" %>"
+                       required>
             </div>
         </div>
 
         <div class="form-group">
             <div class="input-container">
-
+                <div class="input-icon">🔒</div>
                 <input type="password" class="form-input" placeholder="Enter Valid Password" name="password" required>
             </div>
         </div>
 
-       <input type="submit" class="login-btn" value="Login">
+        <input type="submit" class="login-btn" value="Login" id="loginBtn">
 
         <div class="forgot-password">
-            <a href="#" onclick="return false;">Forgot Username / Password?</a>
+            <a href="#" onclick="showForgotPasswordMessage(); return false;">Forgot Username / Password?</a>
         </div>
-
-
     </form>
 </div>
-<%
-    String error = request.getParameter("error");
-    if ("true".equals(error)) {
-%>
+
 <script>
-    alert("Invalid username or password!");
-    if (window.history.replaceState) {
-        // Remove the query string so it won't show again on refresh
-        window.history.replaceState(null, null, window.location.pathname);
+    // Focus on username field when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const usernameField = document.querySelector('input[name="username"]');
+        if (usernameField.value === '') {
+            usernameField.focus();
+        } else {
+            document.querySelector('input[name="password"]').focus();
+        }
+    });
+
+    // Form submission with loading animation
+    document.getElementById('loginForm').addEventListener('submit', function() {
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.classList.add('loading');
+        loginBtn.disabled = true;
+    });
+
+    // Clear messages after 5 seconds
+    setTimeout(function() {
+        const messages = document.querySelectorAll('.message');
+        messages.forEach(function(msg) {
+            msg.style.opacity = '0';
+            msg.style.transform = 'translateY(-10px)';
+            setTimeout(function() {
+                msg.style.display = 'none';
+            }, 300);
+        });
+    }, 5000);
+
+    // Forgot password message
+    function showForgotPasswordMessage() {
+        alert('Please contact your administrator to reset your password.\n\nEmail: admin@pahanaedu.com\nPhone: +94 XXX XXX XXX');
     }
+
+    // Add enter key support for better UX
+    document.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('loginForm').submit();
+        }
+    });
+
+    // Add input validation feedback
+    const inputs = document.querySelectorAll('.form-input');
+    inputs.forEach(function(input) {
+        input.addEventListener('blur', function() {
+            if (this.value.trim() === '') {
+                this.style.backgroundColor = '#ffebee';
+                this.style.borderColor = '#f44336';
+            } else {
+                this.style.backgroundColor = '#f5f5f5';
+                this.style.borderColor = 'transparent';
+            }
+        });
+
+        input.addEventListener('input', function() {
+            this.style.backgroundColor = '#f5f5f5';
+            this.style.borderColor = 'transparent';
+        });
+    });
 </script>
-<%
-    }
-%>
 
 </body>
-
 </html>
