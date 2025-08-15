@@ -87,6 +87,15 @@
     </script>
 </head>
 <body>
+<%
+    // Check if user is logged in
+    String userName = (String) session.getAttribute("username");
+    if(userName == null) {
+        // Redirect to login if not logged in
+        response.sendRedirect("index.jsp");
+        return;
+    }
+%>
 <div class="container">
     <!-- Sidebar (you can reuse your same sidebar here) -->
     <nav class="sidebar" id="sidebar">
@@ -96,11 +105,11 @@
         </div>
         <ul class="nav-menu">
             <li class="nav-item"><a href="Home.jsp" class="nav-link">Dashboard</a></li>
-            <li class="nav-item"><a href="addCustomer.jsp" class="nav-link">Add Customer</a></li>
-            <li class="nav-item"><a href="calculateBill.jsp" class="nav-link active">Calculate & Print Bill</a></li>
+            <li class="nav-item"><a href="addCustomer.jsp" class="nav-link ">Add Customer</a></li>
+            <li class="nav-item"><a href="" class="nav-link active">Calculate & Print Bill</a></li>
             <li class="nav-item"><a href="additem.jsp" class="nav-link">Manage Item</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Help</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Exit</a></li>
+            <li class="nav-item"><a href="help" class="nav-link">Help</a></li>
+            <li class="nav-item"><a href="logout" onclick="return confirmExit()" class="nav-link">Exit</a></li>
         </ul>
     </nav>
 
@@ -173,6 +182,12 @@
 
         totalField.innerText = (price * units).toFixed(2);
     }
+
+
+        function confirmExit() {
+        return confirm("Are you sure you want to exit?");
+    }
+
 
 </script>
 </body>

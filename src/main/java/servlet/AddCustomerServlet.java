@@ -6,9 +6,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Customer;
+import service.CustomerService;
 
 import java.io.IOException;
 public class AddCustomerServlet extends HttpServlet {
+    private CustomerService customerService = new CustomerService(); // use service layer
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -25,15 +28,13 @@ public class AddCustomerServlet extends HttpServlet {
         customer.setTelephone(telephone);
         customer.setUnitsConsumed(units);
 
-        try {
-            CustomerDAO dao = new CustomerDAO();
-            dao.addCustomer(customer);
+        String message = customerService.addCustomer(customer);
+
+        if (message.equals("Customer added successfully.")) {
             response.sendRedirect("success.jsp");
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("error", "Failed to add customer: " + e.getMessage());
+        } else {
+            request.setAttribute("error", message);
             request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
         }
     }
-
 }

@@ -7,11 +7,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Item;
+import service.ItemService;
 
 import java.io.IOException;
 
 public class AddItemServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private ItemService itemService = new ItemService(); // use service layer
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         String name = request.getParameter("name");
         String priceStr = request.getParameter("price");
@@ -29,16 +33,18 @@ public class AddItemServlet extends HttpServlet {
             int quantity = Integer.parseInt(qtyStr);
 
             Item item = new Item(name, price, quantity);
-            ItemDAO dao = new ItemDAO();
 
-            if (dao.addItem(item)) {
-                request.setAttribute("message", "Item added successfully.");
+            // Use service instead of DAO directly
+            String message = itemService.addItem(item);
+
+            if (message.equals("Item added successfully.")) {
+                request.setAttribute("message", message);
             } else {
-                request.setAttribute("error", "Failed to add item.");
+                request.setAttribute("error", message);
             }
 
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid number format.");
+            request.setAttribute("error", "Invalid number format for price or quantity.");
         }
 
         request.getRequestDispatcher("additem.jsp").forward(request, response);

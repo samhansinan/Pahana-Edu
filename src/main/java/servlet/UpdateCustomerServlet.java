@@ -6,10 +6,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Customer;
+import service.CustomerService;
 
 import java.io.IOException;
 
 public class UpdateCustomerServlet extends HttpServlet {
+    private CustomerService customerService = new CustomerService(); // use service layer
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -26,14 +29,12 @@ public class UpdateCustomerServlet extends HttpServlet {
         customer.setTelephone(telephone);
         customer.setUnitsConsumed(units);
 
+        String message = customerService.updateCustomer(customer);
 
-        try {
-            CustomerDAO dao = new CustomerDAO();
-            dao.updateCustomer(customer);
-            response.sendRedirect("addCustomer.jsp");
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("error", "Failed to update: " + e.getMessage());
+        if (message.equals("Customer updated successfully.")) {
+            response.sendRedirect("addCustomer.jsp"); // or customer list page
+        } else {
+            request.setAttribute("error", message);
             request.getRequestDispatcher("editCustomer.jsp").forward(request, response);
         }
     }
