@@ -1,5 +1,6 @@
 package dao;
 
+import model.BillItem;
 import model.Customer;
 
 
@@ -85,5 +86,26 @@ public class CustomerDAO {
         stmt.setString(1, accountNumber);
         stmt.executeUpdate();
         conn.close();
+    }
+    // New method: Get purchased items by account number
+    public List<BillItem> getPurchasedItemsByAccount(String accountNumber) throws Exception {
+        List<BillItem> items = new ArrayList<>();
+        Connection conn = com.pahanaEdu.util.DBUtil.getConnection();
+        String sql = "SELECT bi.item_name, bi.price, bi.units, bi.subtotal " +
+                "FROM bills b JOIN bill_items bi ON b.bill_id = bi.bill_id " +
+                "WHERE b.account_number = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, accountNumber);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            BillItem item = new BillItem();
+            item.setItemName(rs.getString("item_name"));
+            item.setPrice(rs.getDouble("price"));
+            item.setUnits(rs.getInt("units"));
+            item.setSubtotal(rs.getDouble("subtotal"));
+            items.add(item);
+        }
+        conn.close();
+        return items;
     }
 }

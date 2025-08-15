@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="model.Customer" %>
+<%@ page import="model.Customer, model.BillItem, java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,12 +187,49 @@
                 <tr><td>Telephone</td><td><%= customer.getTelephone() %></td></tr>
                 <tr><td>Units Consumed</td><td><%= customer.getUnitsConsumed() %></td></tr>
             </table>
+
+            <%
+                List<BillItem> purchasedItems = (List<BillItem>) request.getAttribute("purchasedItems");
+                if (purchasedItems != null && !purchasedItems.isEmpty()) {
+                    double totalBill = 0;
+            %>
+            <h3>Purchased Items</h3>
+            <table>
+                <tr>
+                    <th>Item Id</th>
+                    <th>Price</th>
+                    <th>Units</th>
+                    <th>Subtotal</th>
+                </tr>
+                <%
+                    for (BillItem item : purchasedItems) {
+                        totalBill += item.getSubtotal();
+                %>
+                <tr>
+                    <td><%= item.getItemName() %></td>
+                    <td><%= item.getPrice() %></td>
+                    <td><%= item.getUnits() %></td>
+                    <td><%= item.getSubtotal() %></td>
+                </tr>
+                <%
+                    }
+                %>
+                <tr>
+                    <td colspan="3" style="text-align: right; font-weight: bold;">Total Bill</td>
+                    <td style="font-weight: bold;"><%= totalBill %></td>
+                </tr>
+            </table>
+            <%
+            } else {
+            %>
+            <p>No purchased items found for this account.</p>
+            <%
+                }
+            %>
             <%
                 }
             %>
         </div>
-
-
     </main>
 </div>
 </body>

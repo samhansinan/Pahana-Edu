@@ -56,7 +56,7 @@
         color: #2c3e50;
     }
 
-    a {
+    .btn {
         display: inline-block;
         text-decoration: none;
         background-color: #3498db;
@@ -64,20 +64,39 @@
         padding: 10px 18px;
         border-radius: 6px;
         font-weight: 600;
+        margin-right: 10px;
         transition: background-color 0.3s ease;
+        cursor: pointer;
     }
 
-    a:hover {
+    .btn:hover {
         background-color: #2980b9;
+    }
+
+    /* Print-specific styling */
+    @media print {
+        .no-print {
+            display: none;
+        }
+        body {
+            background: #fff;
+            padding: 0;
+        }
+        table {
+            box-shadow: none;
+            width: 100%;
+        }
     }
 </style>
 
 <h2>Bill Details</h2>
-<table>
+<table id="billTable">
     <tr><td>Account Number:</td><td><%= bill.getAccountNumber() %></td></tr>
     <tr><td>Units Consumed:</td><td><%= bill.getUnitsConsumed() %></td></tr>
     <tr><td>Rate Per Unit:</td><td><%= bill.getRatePerUnit() %></td></tr>
     <tr><td>Total Amount:</td><td><%= bill.getTotalAmount() %></td></tr>
 </table>
 
-<a href="calculateBill.jsp">Back</a>
+<!-- Buttons -->
+<button class="btn no-print" onclick="window.print();">Print Receipt</button>
+<a href="calculateBill.jsp" class="btn no-print">Back</a>
