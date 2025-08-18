@@ -26,6 +26,11 @@ public class CustomerService {
         }
 
         try {
+            // 🔹 Check if account number already exists
+            if (customerDAO.accountExists(customer.getAccountNumber())) {
+                return "Account number already exists.";
+            }
+
             customerDAO.addCustomer(customer);
             return "Customer added successfully.";
         } catch (Exception e) {

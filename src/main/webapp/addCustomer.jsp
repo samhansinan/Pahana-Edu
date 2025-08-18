@@ -4,9 +4,20 @@
 <%@ page import="model.Customer" %>
 
 <%
+    // Session check
+    String userName = (String) session.getAttribute("username");
+    if (userName == null) {
+        response.sendRedirect("index.jsp");
+        return;
+    }
+
+    // Fetch customers
     CustomerDAO dao = new CustomerDAO();
     List<Customer> customers = dao.getAllCustomers();
+
+    // Get messages from request
     String error = (String) request.getAttribute("error");
+    String success = (String) request.getAttribute("success");
 %>
 
 <!DOCTYPE html>
@@ -85,15 +96,7 @@
 
 </style>
 <body>
-<%
-    // Check if user is logged in
-    String userName = (String) session.getAttribute("username");
-    if(userName == null) {
-        // Redirect to login if not logged in
-        response.sendRedirect("index.jsp");
-        return;
-    }
-%>
+
 <div class="container">
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
@@ -114,9 +117,14 @@
     <!-- Main Content -->
     <main class="main-content">
 
-        <!-- Show error if any -->
+        <!-- Show success if available -->
+
+        <% if (success != null) { %>
+        <div style="color:green; font-weight:bold; margin-bottom:15px;"><%= success %></div>
+        <% } %>
+
         <% if (error != null) { %>
-        <div class="error-message" style="color:red;"><%= error %></div>
+        <div style="color:red; font-weight:bold; margin-bottom:15px;"><%= error %></div>
         <% } %>
 
         <!-- Success Message -->

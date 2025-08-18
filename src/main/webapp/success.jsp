@@ -4,7 +4,7 @@
     <title>Success</title>
 </head>
 <body>
-<h2>✅ Customer added successfully!</h2>
+<h2>✅ Customer Updated successfully!</h2>
 <a href="addCustomer.jsp">Add Another Customer</a>
 </body>
 </html>

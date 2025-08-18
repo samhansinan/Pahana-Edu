@@ -87,6 +87,22 @@ public class CustomerDAO {
         stmt.executeUpdate();
         conn.close();
     }
+
+    // ✅ New method: check if account number exists
+    public boolean accountExists(String accountNumber) throws Exception {
+        Connection conn = com.pahanaEdu.util.DBUtil.getConnection();
+        String sql = "SELECT COUNT(*) FROM customers WHERE account_number = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, accountNumber);
+        ResultSet rs = stmt.executeQuery();
+        boolean exists = false;
+        if (rs.next()) {
+            exists = rs.getInt(1) > 0;
+        }
+        conn.close();
+        return exists;
+    }
+
     // New method: Get purchased items by account number
     public List<BillItem> getPurchasedItemsByAccount(String accountNumber) throws Exception {
         List<BillItem> items = new ArrayList<>();

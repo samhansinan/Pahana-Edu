@@ -32,7 +32,7 @@ public class UpdateCustomerServlet extends HttpServlet {
         String message = customerService.updateCustomer(customer);
 
         if (message.equals("Customer updated successfully.")) {
-            response.sendRedirect("addCustomer.jsp"); // or customer list page
+            response.sendRedirect("success.jsp"); // or customer list page
         } else {
             request.setAttribute("error", message);
             request.getRequestDispatcher("editCustomer.jsp").forward(request, response);
