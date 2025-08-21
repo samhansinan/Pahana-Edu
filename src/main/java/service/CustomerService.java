@@ -9,8 +9,14 @@ import java.util.List;
 public class CustomerService {
     private CustomerDAO customerDAO;
 
+    // Production constructor (uses real DAO)
     public CustomerService() {
         this.customerDAO = new CustomerDAO();
+    }
+
+    // Constructor for testing (inject a fake DAO)
+    public CustomerService(CustomerDAO customerDAO) {
+        this.customerDAO = customerDAO;
     }
 
     // Add new customer with validation
@@ -26,11 +32,9 @@ public class CustomerService {
         }
 
         try {
-            // 🔹 Check if account number already exists
             if (customerDAO.accountExists(customer.getAccountNumber())) {
                 return "Account number already exists.";
             }
-
             customerDAO.addCustomer(customer);
             return "Customer added successfully.";
         } catch (Exception e) {

@@ -31,7 +31,7 @@ public class AddCustomerServlet extends HttpServlet {
         String message = customerService.addCustomer(customer);
 
         if (message.equals("Customer added successfully.")) {
-            response.sendRedirect("success.jsp");
+            response.sendRedirect("addsuccess.jsp");
         } else {
             request.setAttribute("error", message);
             request.getRequestDispatcher("addCustomer.jsp").forward(request, response);

@@ -12,6 +12,11 @@ public class ItemService {
         this.itemDAO = new ItemDAO();
     }
 
+    // Constructor for testing (inject fake DAO)
+    public ItemService(ItemDAO itemDAO) {
+        this.itemDAO = itemDAO;
+    }
+
     // Add item with business logic
     public String addItem(Item item) {
         if (item.getName() == null || item.getName().isEmpty()) {
@@ -25,8 +30,23 @@ public class ItemService {
         return success ? "Item added successfully." : "Failed to add item.";
     }
 
-    // Optional: get all items
+    // Get all items
     public List<Item> getAllItems() throws Exception {
         return itemDAO.getAllItem();
+    }
+
+    // Update item
+    public void updateItem(Item item) throws Exception {
+        itemDAO.updateItem(item);
+    }
+
+    // Get item by ID
+    public Item getItemById(String itemId) throws Exception {
+        return itemDAO.getItemId(itemId);
+    }
+
+    // Delete item by ID
+    public void deleteItemById(String itemId) throws Exception {
+        itemDAO.deleteItem(itemId);
     }
 }

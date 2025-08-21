@@ -10,9 +10,16 @@ import java.util.List;
 
 
 public class BillService {
-    private BillDAO billDAO = new BillDAO();
+    private BillDAO billDAO;
 
-    // Existing method to calculate a simple bill by fetching units consumed
+    public BillService() {
+        this.billDAO = new BillDAO();
+    }
+
+    public BillService(BillDAO billDAO) {
+        this.billDAO = billDAO;
+    }
+
     public Bill calculateBill(String accountNumber, double ratePerUnit) throws Exception {
         int unitsConsumed = billDAO.getUnitsConsumed(accountNumber);
         double total = unitsConsumed * ratePerUnit;
@@ -26,17 +33,14 @@ public class BillService {
         return bill;
     }
 
-    // Existing method to save simple bill
     public boolean saveBill(Bill bill) {
         return billDAO.addBill(bill);
     }
 
-    // New method: Save bill along with its items (multiple items)
     public boolean saveBillWithItems(Bill bill) {
         return billDAO.saveBillWithItems(bill);
     }
 
-    // Optional: Calculate bill total from list of items
     public Bill calculateBillFromItems(String accountNumber, List<BillItem> items) {
         Bill bill = new Bill();
         bill.setAccountNumber(accountNumber);
@@ -52,8 +56,6 @@ public class BillService {
 
         bill.setUnitsConsumed(totalUnits);
         bill.setTotalAmount(totalAmount);
-
-        // Rate per unit is average price per unit across all items
         bill.setRatePerUnit(totalUnits > 0 ? totalAmount / totalUnits : 0);
 
         return bill;

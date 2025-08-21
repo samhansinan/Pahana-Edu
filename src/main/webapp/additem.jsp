@@ -106,6 +106,7 @@
       <li class="nav-item"><a href="addCustomer.jsp" class="nav-link ">Add Customer</a></li>
       <li class="nav-item"><a href="calculateBill.jsp" class="nav-link ">Calculate & Print Bill</a></li>
       <li class="nav-item"><a href="" class="nav-link active">Manage Item</a></li>
+      <li class="nav-item"><a href="displayCustomer.jsp" class="nav-link ">Display Account</a></li>
       <li class="nav-item"><a href="help" class="nav-link">Help</a></li>
       <li class="nav-item"><a href="logout" onclick="return confirmExit()" class="nav-link">Exit</a></li>
     </ul>
@@ -156,7 +157,7 @@
         <div class="button-group">
           <button type="reset" class="btn btn-secondary">Reset Form</button>
           <button type="button" class="btn btn-danger" onclick="window.history.back()">Cancel</button>
-          <button type="submit" class="btn btn-primary">Add Customer</button>
+          <button type="submit" class="btn btn-primary">Add Item</button>
         </div>
       </form>
     </div>
@@ -185,7 +186,7 @@
 
           <td>
             <a href="editItem.jsp?item_id=<%= i.getItemId() %>" class="btn btn-warning">Edit</a>
-            <a href="deleteItem.jsp?item_id=<%= i.getItemId() %>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
+            <a href="deleteItem.jsp?item_id=<%= i.getItemId() %>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Item?')">Delete</a>
           </td>
         </tr>
         <% } %>

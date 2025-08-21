@@ -81,7 +81,7 @@
         <div class="stats-section">
             <div class="stat-card">
                 <div class="stat-label">Total Customers</div>
-                <div class="stat-value">5,423</div>
+                <div class="stat-value">20</div>
 
             </div>
             <div class="stat-card">
@@ -96,56 +96,7 @@
         </div>
 
         <!-- Dashboard Grid -->
-        <div class="dashboard-grid">
-            <!-- Left Column -->
-            <div>
-                <!-- Chart Section -->
 
-
-                <div style="margin-top: 24px;">
-                    <!-- Recent Activity -->
-                    <div class="recent-activity">
-                        <h3 class="activity-header">Recent Orders</h3>
-                        <ul class="activity-list">
-                            <li class="activity-item">
-                                <div class="activity-details">
-                                    <span class="activity-name">Wade Warren</span>
-                                    <span class="activity-type">Order #15267</span>
-                                </div>
-                                <span class="activity-amount negative">-$35.25</span>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-details">
-                                    <span class="activity-name">Jane Cooper</span>
-                                    <span class="activity-type">Order #15266</span>
-                                </div>
-                                <span class="activity-amount negative">-$25.25</span>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-details">
-                                    <span class="activity-name">Guy Hawkins</span>
-                                    <span class="activity-type">Order #15265</span>
-                                </div>
-                                <span class="activity-amount positive">+$545.00</span>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-details">
-                                    <span class="activity-name">Kristin Watson</span>
-                                    <span class="activity-type">Order #15264</span>
-                                </div>
-                                <span class="activity-amount positive">+$35.25</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column -->
-            <div>
-
-
-            </div>
-        </div>
     </main>
 </div>
 

@@ -7,7 +7,11 @@ public class UserService {
         this.userDAO = new com.pahanaEdu.dao.UserDAO();
     }
 
-    // Validate login credentials
+    // Constructor for injecting fake DAO
+    public UserService(com.pahanaEdu.dao.UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
     public String login(com.pahanaEdu.model.User user) {
         if (user.getUsername() == null || user.getUsername().isEmpty()) {
             return "Username cannot be empty.";

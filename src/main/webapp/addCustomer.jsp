@@ -109,6 +109,7 @@
             <li class="nav-item"><a href="addCustomer.jsp" class="nav-link active">Add Customer</a></li>
             <li class="nav-item"><a href="calculateBill.jsp" class="nav-link">Calculate & Print Bill</a></li>
             <li class="nav-item"><a href="additem.jsp" class="nav-link">Manage Item</a></li>
+            <li class="nav-item"><a href="displayCustomer.jsp" class="nav-link">Display Account</a></li>
             <li class="nav-item"><a href="help" class="nav-link">Help</a></li>
             <li class="nav-item"><a href="logout" onclick="return confirmExit()" class="nav-link">Exit</a></li>
         </ul>
